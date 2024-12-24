@@ -3,9 +3,10 @@ import NavBar from '../NavBar';
 import Footer from '../Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { notification } from 'antd';
+import { notification, Spin } from 'antd';
 import { signIn } from '../../slices/Auth/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface FormData {
   email: string;
@@ -22,9 +23,9 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error } = useSelector((state: RootState) => state.auth);
+  const { isLoading } = useSelector((state: RootState) => state.auth);
 
-  const validateEmail = (email: string | number) => {
+  const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
@@ -50,7 +51,7 @@ export const Login: React.FC = () => {
       navigate('/');
     } catch (error: any) {
       notification.warning({
-        message: 'Invalid email or password',
+        message: error.message,
         duration: 1,
         placement: 'topRight',
         className: 'rounded-lg',
@@ -101,7 +102,11 @@ export const Login: React.FC = () => {
                 disabled={isLoading}
                 className="bg-[#DB4444] rounded-[4px] p-3 text-[16px] transition-all duration-200 text-white font-[400] leading-6 hover:bg-[#e19b9b]"
               >
-                Log In
+                {isLoading ? (
+                  <Spin indicator={<LoadingOutlined spin />} />
+                ) : (
+                  'Log In'
+                )}
               </button>
               <button className="p-3 text-[16px] text-[#DB4444] font-[400] leading-6">
                 Forgot Password?

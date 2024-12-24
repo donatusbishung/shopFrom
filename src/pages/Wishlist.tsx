@@ -16,7 +16,21 @@ export const Wishlist: React.FC = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleAddToCart = (item: []) => {
+  interface Product {
+    id: string;
+    name: string;
+    prevPrice: number;
+    discount: boolean;
+    flashSale: boolean;
+    quantity: number;
+    price: number;
+    img: string;
+    star: string;
+    span: string;
+    isEyeClicked?: boolean; // Optional
+  }
+
+  const handleAddToCart = (item: Product) => {
     const existingItem = cart.find((cartItem) => cartItem.id === item.id);
     if (existingItem) {
       notification.warning({
@@ -30,8 +44,8 @@ export const Wishlist: React.FC = () => {
     }
   };
 
-  const handleRemoveFromWishlist = (item) => {
-    dispatch(removeFromWishlist(item));
+  const handleRemoveFromWishlist = (id: string) => {
+    dispatch(removeFromWishlist(id));
   };
   return (
     <div>
@@ -45,8 +59,8 @@ export const Wishlist: React.FC = () => {
         </div>
         <div className="grid mx-auto gap-14 grid-cols-1 mt-7 md:grid-cols-2 lg:grid-cols-4">
           {isPresentWishlist &&
-            wishlist.map((item) => (
-              <div key={item.id} className="flex flex-col justify-center gap-4">
+            wishlist.map((item: Product, i: number) => (
+              <div key={i} className="flex flex-col justify-center gap-4">
                 <div className="bg-[#F5F5F5] flex items-center cursor-pointer p-8 w-[270px] h-[250px] relative">
                   {item.discount ? (
                     <div className="bg-[#DB4444] self-start absolute left-4 -top-[-20px] px-[16px] py-[4px] rounded-[4px] font-Poppins font-[400] text-[12px] leading-[18px] text-[#FAFAFA]">
@@ -69,7 +83,7 @@ export const Wishlist: React.FC = () => {
                     </div>
                   </div>
                   <div
-                    onClick={() => handleAddToCart(item.id)}
+                    onClick={() => handleAddToCart(item)}
                     className="absolute inset-x-0 bottom-0 bg-black bg-opacity-75 h-10 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300"
                   >
                     <p className="text-white text-[16px] inline-flex items-center gap-3">

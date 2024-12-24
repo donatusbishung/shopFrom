@@ -1,4 +1,4 @@
-import sendIcon from '/icon-send.svg';
+// import sendIcon from '/icon-send.svg';
 import qrcode from '/QR.png';
 import { FiFacebook } from 'react-icons/fi';
 import { RiTwitterXLine } from 'react-icons/ri';

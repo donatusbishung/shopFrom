@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../NavBar';
 import Footer from '../Footer';
-import { useDispatch, UseDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../../slices/Auth/authSlice';
 import { AppDispatch, RootState } from '../../store/store';
-import { notification } from 'antd';
+import { notification, Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface FormData {
   name: string;
@@ -25,9 +26,9 @@ export const Signup: React.FC = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error } = useSelector((state: RootState) => state.auth);
+  const { isLoading } = useSelector((state: RootState) => state.auth);
 
-  const validateEmail = (email: string | number) => {
+  const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
@@ -112,7 +113,11 @@ export const Signup: React.FC = () => {
                 disabled={isLoading}
                 className="bg-[#DB4444] rounded-[4px] p-3 text-[16px] transition-all duration-200 text-white font-[400] leading-6 hover:bg-[#e19b9b]"
               >
-                Create Account
+                {isLoading ? (
+                  <Spin indicator={<LoadingOutlined spin />} />
+                ) : (
+                  'Create Account'
+                )}
               </button>
               <button className="border border-gray-300 rounded-[4px] p-3 text-[16px] font-[400] leading-6">
                 Sign up with Google

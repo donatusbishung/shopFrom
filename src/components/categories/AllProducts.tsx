@@ -11,14 +11,13 @@ import { useEffect, useState } from 'react';
 import { addTowishlist } from '../../slices/wishlist/wishlistSlice';
 import { IoCartOutline } from 'react-icons/io5';
 import { notification } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const AllProducts: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { products } = useSelector((state: RootState) => state.products);
   const { cart } = useSelector((state: RootState) => state.cart);
   const { wishlist } = useSelector((state: RootState) => state.wishlist);
-  //   console.log(wishlist);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(8);
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -28,10 +27,25 @@ export const AllProducts: React.FC = () => {
     indexOfLastProduct
   );
 
-  const [isHeartClicked, setIsHeartClicked] = useState(false);
-  const handleHeartClick = () => {
-    setIsHeartClicked(!isHeartClicked);
-  };
+  interface Product {
+    id: string;
+    name: string;
+    prevPrice: number;
+    discount: boolean;
+    flashSale: boolean;
+    quantity: number;
+    price: number;
+    img: string;
+    isNew: boolean;
+    star: string;
+    span: string;
+    isEyeClicked?: boolean; // Optional
+  }
+
+  // const [isHeartClicked, setIsHeartClicked] = useState(false);
+  // const handleHeartClick = () => {
+  //   setIsHeartClicked(!isHeartClicked);
+  // };
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -39,7 +53,7 @@ export const AllProducts: React.FC = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const handleAddWishlist = (item: []) => {
+  const handleAddWishlist = (item: Product) => {
     const existingItem = wishlist.find((wishItem) => wishItem.id === item.id);
     if (existingItem) {
       notification.warning({
@@ -53,9 +67,7 @@ export const AllProducts: React.FC = () => {
     }
   };
 
-  const navigate = useNavigate();
-
-  const handleAddToCart = (item: []) => {
+  const handleAddToCart = (item: Product) => {
     const existingItem = cart.find((cartItem) => cartItem.id === item.id);
     if (existingItem) {
       notification.warning({
@@ -107,7 +119,7 @@ export const AllProducts: React.FC = () => {
         </div>
       </div>
       <div className="grid mx-auto gap-14 grid-cols-1 mt-7 md:grid-cols-2 lg:grid-cols-4">
-        {currentProducts.map((card, i) => (
+        {currentProducts.map((card: Product, i: number) => (
           <Link
             to={`/product/${card.name}`}
             // onClick={() => navigate(`/product/${card.name}`)}
@@ -129,25 +141,14 @@ export const AllProducts: React.FC = () => {
                   className={`rounded-full p-2 cursor-pointer `}
                   //   onClick={() => handleHeartClick(i, card)}
                 >
-                  {card.isHeartClicked ? (
-                    <div
-                      onClick={(e) => {
-                        handleAddWishlist(card);
-                        e.preventDefault();
-                      }}
-                    >
-                      <IoIosHeartEmpty className="w-[24px] h-[24px] text-white" />
-                    </div>
-                  ) : (
-                    <div
-                      onClick={(e) => {
-                        handleAddWishlist(card);
-                        e.preventDefault();
-                      }}
-                    >
-                      <IoIosHeartEmpty className="w-[24px] h-[24px] text-[#000000]" />
-                    </div>
-                  )}
+                  <div
+                    onClick={(e) => {
+                      handleAddWishlist(card);
+                      e.preventDefault();
+                    }}
+                  >
+                    <IoIosHeartEmpty className="w-[24px] h-[24px] text-[#000000]" />
+                  </div>
                 </div>
                 <div
                   className={`rounded-full p-2 cursor-pointer duration-200 `}

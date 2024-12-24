@@ -7,7 +7,7 @@ interface WishlistItem {
   name: string;
   price: number;
   prevPrice: number;
-  flash_sale: boolean;
+  flashSale: boolean;
   discount: boolean;
   quantity: number;
   star: string;
@@ -24,7 +24,6 @@ const storedItem = getFromLocalStorage('wishlist');
 const initialState: WishlistState = {
   wishlist: storedItem || [],
   isPresentWishlist: !!storedItem,
-  // wishlistCount: 0,
 };
 
 export const wishlistSlice = createSlice({
@@ -37,7 +36,6 @@ export const wishlistSlice = createSlice({
       );
       if (!existingItem) {
         state.wishlist.push(action.payload);
-        // state.wishlistCount++;
         state.isPresentWishlist = true;
       }
       saveToLocalStorage('wishlist', state.wishlist);
@@ -46,8 +44,7 @@ export const wishlistSlice = createSlice({
       state.wishlist = state.wishlist.filter(
         (wishlistItem) => wishlistItem.id !== action.payload
       );
-      // state.wishlistCount--;
-      state.isPresentWishlist = state.wishlist.length > 0; // update isPresentWishlist flag
+      state.isPresentWishlist = state.wishlist.length > 0;
       saveToLocalStorage('wishlist', state.wishlist);
     },
   },

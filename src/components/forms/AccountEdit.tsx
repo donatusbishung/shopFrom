@@ -6,9 +6,9 @@ interface FormData {
   lastName: string;
   email: string;
   address: string;
-  currentPassword: number;
-  newPassword: number;
-  confirmPassword: number;
+  currentPassword: string | number;
+  newPassword: string | number;
+  confirmPassword: string | number;
 }
 
 export const AccountEdit: React.FC = () => {

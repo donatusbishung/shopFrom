@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export const CheckoutForm: React.FC = () => {
   const [formData, setFormData] = useState({
-    FirstName: '',
+    firstName: '',
     email: '',
     companyName: '',
     streetAddress: '',
@@ -20,7 +20,7 @@ export const CheckoutForm: React.FC = () => {
     // API call to update the details
     console.log(formData);
     setFormData({
-      FirstName: '',
+      firstName: '',
       email: '',
       companyName: '',
       streetAddress: '',

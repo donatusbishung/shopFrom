@@ -11,11 +11,24 @@ export const Cart: React.FC = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleRemoveFromCart = (item) => {
-    dispatch(removeFromCart(item));
+  interface CartItem {
+    id: string;
+    img: string;
+    name: string;
+    price: number;
+    prevPrice: number;
+    flashSale: boolean;
+    discount: boolean;
+    quantity: number;
+    star: string;
+    span: string;
+  }
+
+  const handleRemoveFromCart = (id: string) => {
+    dispatch(removeFromCart(id));
   };
 
-  const handleQuantityChange = (e: number, item) => {
+  const handleQuantityChange = (e: any, item: CartItem) => {
     dispatch(
       updateQuantity({
         id: item.id,

@@ -20,7 +20,7 @@ interface CartState {
   cartCount: number;
 }
 
-const storedItem = getFromLocalStorage('cart');
+const storedItem = getFromLocalStorage('cart') as CartItem[] | null;
 const initialState: CartState = {
   cart: storedItem || [],
   isPresent: !!storedItem,

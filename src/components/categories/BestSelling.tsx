@@ -16,13 +16,29 @@ export const BestSellingLayout: React.FC = () => {
   const { products } = useSelector((state: RootState) => state.products);
   const { cart } = useSelector((state: RootState) => state.cart);
   const { wishlist } = useSelector((state: RootState) => state.wishlist);
-  const [clicked, setClicked] = useState(false);
+  // const [clicked, setClicked] = useState(false);
+
+  interface Product {
+    id: string;
+    name: string;
+    prevPrice: number;
+    discount: boolean;
+    flashSale: boolean;
+    quantity: number;
+    price: number;
+    img: string;
+    isNew: boolean;
+    star: string;
+    span: string;
+    isEyeClicked?: boolean;
+    isHeartClicked?: boolean;
+  }
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const handleAddToCart = (item: []) => {
+  const handleAddToCart = (item: Product) => {
     const existingItem = cart.find((cartItem) => cartItem.id === item.id);
     if (existingItem) {
       notification.warning({
@@ -36,7 +52,7 @@ export const BestSellingLayout: React.FC = () => {
     }
   };
 
-  const handleAddWishlist = (item: []) => {
+  const handleAddWishlist = (item: Product) => {
     const existingItem = wishlist.find((wishItem) => wishItem.id === item.id);
     if (existingItem) {
       notification.warning({
@@ -50,12 +66,6 @@ export const BestSellingLayout: React.FC = () => {
     }
   };
 
-  // useEffect to save cart items
-  //   useEffect(() => {
-  //     if (clicked) return;
-  //     setClicked(false);
-  //   }, [clicked, cart]);
-
   const bestSellingProducts = products.filter(
     (product) => product.best_selling
   );
@@ -68,8 +78,8 @@ export const BestSellingLayout: React.FC = () => {
     }))
   );
 
-  const handleHeartClick = (item, index) => {
-    if (wishlist.items.some((e) => e.id === item.id)) {
+  const handleHeartClick = (item: Product, index: number) => {
+    if (wishlist.some((e: any) => e.id === item.id)) {
       return;
     }
 
@@ -81,16 +91,16 @@ export const BestSellingLayout: React.FC = () => {
     handleAddWishlist(item);
   };
 
-  const handleEyeClick = (index) => {
-    setCards(
-      cards.map((card, i) =>
-        i === index ? { ...card, isEyeClicked: !card.isEyeClicked } : card
-      )
-    );
-  };
+  // const handleEyeClick = (index: number) => {
+  //   setCards(
+  //     cards.map((card, i) =>
+  //       i === index ? { ...card, isEyeClicked: !card.isEyeClicked } : card
+  //     )
+  //   );
+  // };
 
   return (
-    <div className="px-[10px] lg:px-[100px] flex flex-col gap-5">
+    <div className="px-[10px] lg:px-[100px] flex flex-col gap-5 mt-36">
       <div className="flex items-center gap-3">
         <img src={block} alt="block" />
         <p className="font-Poppins font-[600] text-[16px] leading-[20px] text-[#DB4444]">
@@ -106,7 +116,7 @@ export const BestSellingLayout: React.FC = () => {
         </button>
       </div>
       <div className="grid mx-auto gap-14 grid-cols-1 mt-7 md:grid-cols-2 lg:grid-cols-4">
-        {bestSellingProducts.map((card, i) => (
+        {bestSellingProducts.map((card: Product, i: number) => (
           <Link
             to={`/product/${card.name}`}
             // onClick={() => navigate(`/product/${card.name}`)}
@@ -131,7 +141,7 @@ export const BestSellingLayout: React.FC = () => {
                   {card.isHeartClicked ? (
                     <div
                       onClick={(e) => {
-                        handleAddWishlist(card);
+                        handleHeartClick(card, i);
                         e.preventDefault();
                       }}
                     >

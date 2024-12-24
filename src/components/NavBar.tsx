@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styles from './NavBar.module.css';
 import {
@@ -103,40 +103,43 @@ function NavBar() {
         </Link>
 
         {/* User Icon and Dropdown */}
-        {isAuthenticated && (
-          <div
-            className={`relative rounded-full p-2 ${
-              userMenuOpen ? 'bg-[#DB4444] text-white' : ''
-            }`}
-            onClick={handleUserClick}
-          >
-            <CiUser className="w-[24px] h-[24px] cursor-pointer" />
-            {userMenuOpen && (
-              <div className="absolute right-0 mt-7 w-[225px] bg-[#000000] opacity-90 rounded-md shadow-lg z-10">
-                <ul className="list-none text-[14px] font-Poppins text-white">
-                  <li className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400">
-                    <PiUserLight /> <Link to="/account">Manage My Account</Link>
-                  </li>
-                  <li className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400">
-                    <CiGift /> My Order
-                  </li>
-                  <li className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400">
-                    <TiDeleteOutline /> My Cancellations
-                  </li>
-                  <li className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400">
-                    <CiStar /> My Reviews
-                  </li>
-                  <li
-                    onClick={handleLogout}
-                    className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400"
-                  >
-                    <CiLogout /> Logout
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
+        <div
+          className={`relative rounded-full p-2 ${
+            userMenuOpen ? 'bg-[#DB4444] text-white' : ''
+          }`}
+          onClick={handleUserClick}
+        >
+          <CiUser className="w-[24px] h-[24px] cursor-pointer" />
+          {isAuthenticated && (
+            <div>
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-7 w-[225px] bg-[#000000] opacity-90 rounded-md shadow-lg z-10">
+                  <ul className="list-none text-[14px] font-Poppins text-white">
+                    <li className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400">
+                      <PiUserLight />{' '}
+                      <Link to="/account">Manage My Account</Link>
+                    </li>
+                    <li className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400">
+                      <CiGift /> My Order
+                    </li>
+                    <li className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400">
+                      <TiDeleteOutline /> My Cancellations
+                    </li>
+                    <li className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400">
+                      <CiStar /> My Reviews
+                    </li>
+                    <li
+                      onClick={handleLogout}
+                      className="flex items-center gap-3 py-2 px-4 hover:bg-gray-400"
+                    >
+                      <CiLogout /> Logout
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Mobile Menu */}

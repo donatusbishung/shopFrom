@@ -7,7 +7,9 @@ export const ContactForm: React.FC = () => {
     message: '',
     phone: '',
   });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     console.log(name, value);
     setFormData({ ...formData, [name]: value });

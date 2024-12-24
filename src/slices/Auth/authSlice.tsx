@@ -4,11 +4,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  User,
 } from 'firebase/auth';
 import { removeFromLocalStorage, saveToLocalStorage } from '../../helper';
 
 interface AuthState {
-  user: null;
+  user: User | null;
   isLoading: boolean;
   error: string | null;
   isAuthenticated: boolean;
@@ -35,8 +36,8 @@ export const signUp = createAsyncThunk(
       );
       saveToLocalStorage('user', userCredential.user);
       return userCredential.user;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+    } catch (error: any) {
+      return thunkApi.rejectWithValue(error.message as string);
     }
   }
 );
@@ -56,7 +57,7 @@ export const signIn = createAsyncThunk(
       saveToLocalStorage('user', userCredential.user);
       return userCredential.user;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.message as string);
     }
   }
 );
@@ -66,7 +67,7 @@ export const logOut = createAsyncThunk('auth/logOut', async (_, thunkAPI) => {
     await signOut(auth);
     removeFromLocalStorage('user');
   } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(error.message as string);
   }
 });
 
