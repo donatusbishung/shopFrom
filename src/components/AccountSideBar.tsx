@@ -1,12 +1,25 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import { RootState } from '../store/store';
+import { useSelector } from 'react-redux';
 
 const AccountSideBar = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
   return (
     <div className="py-28 lg:py-32 px-[100px] flex flex-col gap-10">
-      <div className="flex items-center gap-3 font-[400] text-[14px] leading-[21px]">
-        <Link to="/">Home</Link>
-        <span>/</span>
-        <p>Account</p>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-3 font-[400] text-[14px] leading-[21px]">
+          <Link to="/">Home</Link>
+          <span>/</span>
+          <p>Account</p>
+        </div>
+        <div>
+          <p className="font-normal text-[14px] leading-[14px]">
+            Welcome{''}
+            <span className="text-[#DB4444]">
+              {user?.displayName || 'to ShopFrom'}
+            </span>
+          </p>
+        </div>
       </div>
       <div className="flex">
         <div className="flex flex-col items-start gap-8 mr-auto">

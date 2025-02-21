@@ -1,18 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { productsData } from '../../Data'; // Import the exported data
 
 interface Product {
-  id: string;
+  id: number;
   img: string;
   name: string;
   price: number;
-  prevPrice: number;
-  best_selling: boolean;
-  isNew: boolean;
-  flashSale: boolean;
-  discount: boolean;
+  prevPrice?: number;
+  best_selling?: boolean;
+  isNew?: boolean;
+  flashSale?: boolean;
+  discount?: boolean;
   quantity: number;
-  star: string;
-  span: string;
+  star?: string;
+  span?: string;
 }
 
 interface ProductState {
@@ -30,15 +31,14 @@ const initialState: ProductState = {
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
-    const response = await fetch('data/data.json');
-    const data = await response.json();
+    // Simulate an async operation (e.g., fetching from an API)
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     const allProducts = [
-      ...data.game,
-      ...data.clothing,
-      ...data.food,
-      ...data.utils,
+      ...productsData.game,
+      ...productsData.clothing,
+      ...productsData.food,
+      ...productsData.utils,
     ];
-    // console.log(allProducts);
     return allProducts;
   }
 );
@@ -62,7 +62,5 @@ const productSlice = createSlice({
       });
   },
 });
-
-// export const {} = productSlice.actions;
 
 export default productSlice.reducer;

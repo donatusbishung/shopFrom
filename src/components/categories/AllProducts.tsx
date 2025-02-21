@@ -12,10 +12,16 @@ import { addTowishlist } from '../../slices/wishlist/wishlistSlice';
 import { IoCartOutline } from 'react-icons/io5';
 import { notification } from 'antd';
 import { Link } from 'react-router-dom';
+// import { db } from '../../config/firebase';
+// import { collection, getDocs } from 'firebase/firestore';
 
 export const AllProducts: React.FC = () => {
+  // const [items, setItems] = useState([]);
+
   const dispatch = useDispatch<AppDispatch>();
+
   const { products } = useSelector((state: RootState) => state.products);
+  console.log(products);
   const { cart } = useSelector((state: RootState) => state.cart);
   const { wishlist } = useSelector((state: RootState) => state.wishlist);
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +32,22 @@ export const AllProducts: React.FC = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
+
+  // const productsCollection = collection(db, 'products');
+  // useEffect(() => {
+  //   const fetchAllProducts = async () => {
+  //     try {
+  //       const data = await getDocs(productsCollection);
+  //       const filteredData = data.docs.map((doc) => ({
+  //         ...doc.data(),
+  //       }));
+  //       console.log(filteredData);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+  //   fetchAllProducts();
+  // });
 
   interface Product {
     id: string;
